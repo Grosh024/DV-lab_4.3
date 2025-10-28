@@ -27,14 +27,20 @@ df['calories_per_gram'] = df['Calories'] / df['Grams']
 
 df = df.dropna() # Drop rows with NaN values after conversion
 
-# Add your dashboard visuals here...
+# Add your dashboard visuals here
 # Filter data based on sidebar inputs
-category = st.sidebar.selectbox("Food Category", df["Category"].unique(), key="sidebar_category")
-nutrient = st.sidebar.selectbox("Nutrient", ["Protein", "Fat", "Carbs", "Fiber", "Calories"], key="sidebar_nutrient")
-min_cal, max_cal = st.sidebar.slider("Calories Range", int(df["Calories"].min()), int(df["Calories"].max()), (100, 500))
-filtered = df[(df["Category"] == category) & (df["Calories"] >= min_cal) & (df["Calories"] <= max_cal)]
+category_options = ["All"] + list(df["Category"].unique()) # Add "All" option
+category = st.sidebar.selectbox("Food Category", category_options, key="sidebar_category") # Sidebar selectbox for category
+nutrient = st.sidebar.selectbox("Nutrient", ["Protein", "Fat", "Carbs", "Fiber", "Calories"], key="sidebar_nutrient") # Sidebar selectbox for nutrient
+min_cal, max_cal = st.sidebar.slider("Calories Range", int(df["Calories"].min()), int(df["Calories"].max()), (100, 500)) # Sidebar slider for calories
 
+# Apply filters
+if category == "All":
+    filtered = df.copy()
+else:
+    filtered = df[df["Category"] == category]
 
+# Arrange charts and table with Streamlit columns
 col1, col2 = st.columns(2)
 with col1:
     # Bar chart code
