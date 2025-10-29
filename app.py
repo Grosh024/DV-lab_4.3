@@ -1,32 +1,38 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
+import matplotlib # type: ignore
+import plotly  # type: ignore
 
+# Set page configuration
 st.set_page_config(page_title="Nutrition Dashboard", layout="wide")
 
+# Title of the dashboard
 st.title("Nutrition Dashboard")
-# Load data
+
+# Load data from local csv file
 df = pd.read_csv("nutrients.csv")
 
 # Convert relevant columns to numeric, handling errors
-# Fix non-numeric values in columns
 df['Protein'] = pd.to_numeric(df['Protein'], errors='coerce')
 df['Fat'] = pd.to_numeric(df['Fat'], errors='coerce')
 df['Fiber'] = pd.to_numeric(df['Fiber'], errors='coerce')
 df['Carbs'] = pd.to_numeric(df['Carbs'], errors='coerce')
 df['Calories'] = pd.to_numeric(df['Calories'], errors='coerce')
 df['Grams'] = pd.to_numeric(df['Grams'], errors='coerce')
-# Calculate per gram values for nutrients
+
+# Calculate per gram values for nutrients (feature engineering)
 df['protein_per_gram'] = df['Protein'] / df['Grams']
 df['fat_per_gram'] = df['Fat'] / df['Grams']
 df['fiber_per_gram'] = df['Fiber'] / df['Grams']
 df['carbs_per_gram'] = df['Carbs'] / df['Grams']
 df['calories_per_gram'] = df['Calories'] / df['Grams']
 
-df = df.dropna() # Drop rows with NaN values after conversion
+# Drop rows with NaN values after conversion
+df = df.dropna() 
 
-# Add your dashboard visuals here
-# Filter data based on sidebar inputs
+# Add dashboard visuals
+# sidebar inputs
 category_options = ["All"] + list(df["Category"].unique()) # Add "All" option
 category = st.sidebar.selectbox("Food Category", category_options, key="sidebar_category") # Sidebar selectbox for category
 nutrient = st.sidebar.selectbox("Nutrient", ["Protein", "Fat", "Carbs", "Fiber", "Calories"], key="sidebar_nutrient") # Sidebar selectbox for nutrient
@@ -59,4 +65,6 @@ with col2:
     st.subheader("Nutrient Breakdown")
     st.pyplot(pie_data.plot.pie(autopct='%1.1f%%', figsize=(4,4)).figure)
 
+# Display filtered data table
+st.subheader("Food Table")
 st.dataframe(filtered)
