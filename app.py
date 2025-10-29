@@ -50,7 +50,17 @@ with col1:
     # Bar chart code
     st.subheader(f"Top foods by {nutrient}")
     top_foods = filtered.nlargest(10, nutrient)
-    st.bar_chart(top_foods.set_index("Food")[nutrient])
+    # Take your top_foods DataFrame
+chart = alt.Chart(top_foods).mark_bar().encode(
+    x=alt.X('Food', sort='-y', title=''),           # Hide or set x-axis title
+    y=alt.Y(nutrient, title=nutrient),              # Custom y-axis title
+    tooltip=['Food', nutrient]
+).properties(
+    width=300,   # Adjust chart width to fit your column
+    height=350   # Adjust for better alignment
+)
+
+st.altair_chart(chart, use_container_width=True)
 
 with col2:
     # Pie chart code + bar chart with rotated x-axis labels
