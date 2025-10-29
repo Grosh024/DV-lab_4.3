@@ -68,16 +68,6 @@ with col2:
     ax1.set_ylabel("")  # remove default y-label
     st.pyplot(fig1)
 
-    # Also show the top foods bar chart with rotated x-axis labels
-    if not top_foods.empty:
-        fig2, ax2 = plt.subplots(figsize=(6, 4))
-        bar_series = top_foods.set_index("Food")[nutrient]
-        bar_series.plot.bar(ax=ax2)
-        ax2.set_xlabel("Food")
-        ax2.set_ylabel(nutrient)
-        ax2.set_xticklabels(bar_series.index, rotation=45, ha='right')
-        st.pyplot(fig2)
-
 # Display filtered data table
 st.subheader("Food Table")
 st.dataframe(filtered)
