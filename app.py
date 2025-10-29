@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
-import matplotlib # type: ignore
-import plotly  # type: ignore
+import matplotlib.pyplot as plt
+import plotly.express as px
 
 # Set page configuration
 st.set_page_config(page_title="Nutrition Dashboard", layout="wide")
@@ -53,7 +53,7 @@ with col1:
     st.bar_chart(top_foods.set_index("Food")[nutrient])
 
 with col2:
-    # Pie chart code
+    # Pie chart code + bar chart with rotated x-axis labels
     food_choice = st.selectbox("Select a food for detail", filtered["Food"], key="main_food_select")
     row = filtered[filtered["Food"] == food_choice].iloc[0]
     pie_data = pd.Series({
@@ -63,7 +63,20 @@ with col2:
         "Fiber": row["Fiber"]
     })
     st.subheader("Nutrient Breakdown")
-    st.pyplot(pie_data.plot.pie(autopct='%1.1f%%', figsize=(4,4)).figure)
+    fig1, ax1 = plt.subplots(figsize=(4, 4))
+    pie_data.plot.pie(ax=ax1, autopct='%1.1f%%')
+    ax1.set_ylabel("")  # remove default y-label
+    st.pyplot(fig1)
+
+    # Also show the top foods bar chart with rotated x-axis labels
+    if not top_foods.empty:
+        fig2, ax2 = plt.subplots(figsize=(6, 4))
+        bar_series = top_foods.set_index("Food")[nutrient]
+        bar_series.plot.bar(ax=ax2)
+        ax2.set_xlabel("Food")
+        ax2.set_ylabel(nutrient)
+        ax2.set_xticklabels(bar_series.index, rotation=45, ha='right')
+        st.pyplot(fig2)
 
 # Display filtered data table
 st.subheader("Food Table")
