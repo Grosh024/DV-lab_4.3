@@ -47,10 +47,17 @@ else:
 # Arrange charts and table with Streamlit columns
 col1, col2 = st.columns(2)
 with col1:
-    # Bar chart code
+    # Bar chart code with rotated x-axis labels
     st.subheader(f"Top foods by {nutrient}")
     top_foods = filtered.nlargest(10, nutrient)
-    st.bar_chart(top_foods.set_index("Food")[nutrient])
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.bar(top_foods['Food'], top_foods[nutrient], color='C0')
+    ax.set_xlabel("Food")
+    ax.set_ylabel(nutrient)
+    ax.set_title(f"Top {len(top_foods)} foods by {nutrient}")
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+    st.pyplot(fig)
 
 with col2:
     # Pie chart code + bar chart with rotated x-axis labels
