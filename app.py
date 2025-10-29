@@ -49,14 +49,14 @@ col1, col2 = st.columns(2)
 with col1:
     # Bar chart code
     st.subheader(f"Top foods by {nutrient}")
-    top_foods = filtered.nlargest(10, nutrient)
+    top_foods = filtered.nlargest(5, nutrient)
     # Take your top_foods DataFrame
 chart = alt.Chart(top_foods).mark_bar().encode(
     x=alt.X('Food', sort='-y', title=''),           # Hide or set x-axis title
     y=alt.Y(nutrient, title=nutrient),              # Custom y-axis title
     tooltip=['Food', nutrient]
 ).properties(
-    width=200 # Adjust chart width to fit your column
+    width=200,  # Adjust chart width to fit your column
     height=250  # Adjust for better alignment
 )
 
