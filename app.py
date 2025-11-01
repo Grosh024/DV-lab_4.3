@@ -46,37 +46,27 @@ else:
 
 # Arrange charts and table with Streamlit columns
 col1, col2 = st.columns(2)
-with col1:
-    # Bar chart code
-    st.subheader(f"Top foods by {nutrient}")
-    top_foods = filtered.nlargest(5, nutrient)
-    # Take your top_foods DataFrame
-chart = alt.Chart(top_foods).mark_bar().encode(
-    x=alt.X('Food', sort='-y', title=''),           # Hide or set x-axis title
-    y=alt.Y(nutrient, title=nutrient),              # Custom y-axis title
-    tooltip=['Food', nutrient]
-).properties(
-    width=600,  # Adjust chart width to fit your column
-    height=300  # Adjust for better alignment
-)
 
-st.altair_chart(chart, use_container_width=True)
+with col1:
+    st.subheader(f"Top foods by {nutrient}")
+    top_foods = filtered.nlargest(10, nutrient)
+    st.bar_chart(top_foods.set_index("Food")[nutrient])
 
 with col2:
-    # Pie chart code 
+    # Nutrient detail 
+    st.subheader("Nutrient Breakdown")
     food_choice = st.selectbox("Select a food for detail", filtered["Food"], key="main_food_select")
     row = filtered[filtered["Food"] == food_choice].iloc[0]
-    pie_data = pd.Series({
-        "Protein": row["Protein"],
-        "Fat": row["Fat"],
-        "Carbs": row["Carbs"],
-        "Fiber": row["Fiber"]
-    })
-    st.subheader("Nutrient Breakdown")
-    fig1, ax1 = plt.subplots(figsize=(2, 2))
-    pie_data.plot.pie(ax=ax1, autopct='%1.1f%%')
-    ax1.set_ylabel("")  # remove default y-label
-    st.pyplot(fig1)
+    nutrients = ["Protein", "Fat", "Carbs", "Fiber"]
+    values = [row[n] for n in nutrients]
+    fig, ax = plt.subplots(figsize=(5,4))
+    ax.bar(nutrients, values, color=['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728'])
+    ax.set_ylabel("Amount")
+    ax.set_title(f"Nutrients in {food_choice}")
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+    st.pyplot(fig)
+    plt.close(fig)
 
 # Display filtered data table
 st.subheader("Food Table")
