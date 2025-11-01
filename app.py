@@ -60,7 +60,7 @@ with col1:
     st.write("")
     st.write("")
     st.write("")
-    top_foods = filtered.nlargest(8, nutrient)
+    top_foods = filtered.nlargest(4, nutrient)
     chart = alt.Chart(top_foods).mark_bar().encode(
         x=alt.X('Food', sort='-y', axis=alt.Axis(labelAngle=-45)),
         y=alt.Y(nutrient)
