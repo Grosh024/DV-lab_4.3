@@ -57,11 +57,18 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader(f"Top foods by {nutrient} per serving")
-    st.write("")         # One blank line
-    st.write("")         # Two blank lines
-    st.write("")         # Add more for more space
-    top_foods = filtered.nlargest(10, nutrient)
-    st.bar_chart(top_foods.set_index("Food")[nutrient])
+    st.write("")
+    st.write("")
+    st.write("")
+    top_foods = filtered.nlargest(8, nutrient)
+    chart = alt.Chart(top_foods).mark_bar().encode(
+        x=alt.X('Food', sort='-y', axis=alt.Axis(labelAngle=-45)),
+        y=alt.Y(nutrient)
+    ).properties(
+        width=400,
+        height=350
+    )
+    st.altair_chart(chart, use_container_width=True)
 
 with col2:
     st.subheader("Nutrient Breakdown")
