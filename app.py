@@ -12,6 +12,12 @@ st.title("Nutrition Dashboard")
 
 # Load data from local csv file
 df = pd.read_csv("nutrients.csv")
+# Remove rows 30 and 31
+df = df.drop(index=[30, 31])
+# Modify 'Oysters' row with new values
+df.loc[df['Food'] == 'Oysters', ['Measure', 'Calories', 'Protein', 'Fat']] = ['3 oz.', 69, 8, 2]
+# Convert Grams column to 85 for oysters
+df.loc[df['Food'].str.contains('oyster', case=False, na=False), 'Grams'] = 85
 
 # Convert relevant columns to numeric, handling errors
 df['Protein'] = pd.to_numeric(df['Protein'], errors='coerce')
