@@ -56,8 +56,8 @@ chart = alt.Chart(top_foods).mark_bar().encode(
     y=alt.Y(nutrient, title=nutrient),              # Custom y-axis title
     tooltip=['Food', nutrient]
 ).properties(
-    width=100,  # Adjust chart width to fit your column
-    height=150  # Adjust for better alignment
+    width=600,  # Adjust chart width to fit your column
+    height=300  # Adjust for better alignment
 )
 
 st.altair_chart(chart, use_container_width=True)
