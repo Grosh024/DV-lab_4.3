@@ -53,6 +53,30 @@ with col1:
     st.bar_chart(top_foods.set_index("Food")[nutrient])
 
 with col2:
+    st.subheader("Nutrient Breakdown")
+    food_choice = st.selectbox("Select a food for detail", filtered["Food"], key="main_food_select")
+    row = filtered[filtered["Food"] == food_choice].iloc[0]
+
+    nutrients = ["Protein", "Fat", "Carbs", "Fiber"]
+    values = [row[n] for n in nutrients]
+    
+    # Create a DataFrame for the pie chart
+    pie_data = pd.DataFrame({
+        "Nutrient": nutrients,
+        "Amount": values
+    })
+
+    # Plotly pie chart
+    pie_fig = px.pie(
+        pie_data,
+        names="Nutrient",
+        values="Amount",
+        title=f"Nutrient Breakdown for {food_choice}",
+        color_discrete_sequence=px.colors.qualitative.Set3
+    )
+    pie_fig.update_traces(textposition='inside', textinfo='percent+label')
+    st.plotly_chart(pie_fig, use_container_width=True)
+
     # Nutrient detail 
     st.subheader("Nutrient Breakdown")
     food_choice = st.selectbox("Select a food for detail", filtered["Food"], key="main_food_select")
