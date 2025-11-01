@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
-#import plotly.express as px # type: ignore
+import plotly.express as px
 #import matplotlib.pyplot as plt # type: ignore
 
 # Set page configuration
