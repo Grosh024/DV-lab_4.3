@@ -18,6 +18,7 @@ df = df.drop(index=[30, 31])
 df.loc[df['Food'] == 'Oysters', ['Measure', 'Calories', 'Protein', 'Fat']] = ['3 oz.', 69, 8, 2]
 # Convert Grams column to 85 for oysters
 df.loc[df['Food'].str.contains('oyster', case=False, na=False), 'Grams'] = 85
+df.loc[df['Food'] == 'Oysters', 'Fiber'] = 0
 # Modify 'Flour' row with new Protein value
 df.loc[df['Food'] == 'Flour', 'Protein'] = 4
 
