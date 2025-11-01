@@ -18,6 +18,8 @@ df = df.drop(index=[30, 31])
 df.loc[df['Food'] == 'Oysters', ['Measure', 'Calories', 'Protein', 'Fat']] = ['3 oz.', 69, 8, 2]
 # Convert Grams column to 85 for oysters
 df.loc[df['Food'].str.contains('oyster', case=False, na=False), 'Grams'] = 85
+# Modify 'Flour' row with new Protein value
+df.loc[df['Food'] == 'Flour', 'Protein'] = 4
 
 # Convert relevant columns to numeric, handling errors
 df['Protein'] = pd.to_numeric(df['Protein'], errors='coerce')
@@ -54,7 +56,7 @@ else:
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader(f"Top foods by {nutrient}")
+    st.subheader(f"Top foods by {nutrient} per serving")
     st.write("")         # One blank line
     st.write("")         # Two blank lines
     st.write("")         # Add more for more space
