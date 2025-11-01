@@ -77,21 +77,6 @@ with col2:
     pie_fig.update_traces(textposition='inside', textinfo='percent+label')
     st.plotly_chart(pie_fig, use_container_width=True)
 
-    # Nutrient detail 
-    st.subheader("Nutrient Breakdown")
-    food_choice = st.selectbox("Select a food for detail", filtered["Food"], key="main_food_select")
-    row = filtered[filtered["Food"] == food_choice].iloc[0]
-    nutrients = ["Protein", "Fat", "Carbs", "Fiber"]
-    values = [row[n] for n in nutrients]
-    fig, ax = plt.subplots(figsize=(5,4))
-    ax.bar(nutrients, values, color=['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728'])
-    ax.set_ylabel("Amount")
-    ax.set_title(f"Nutrients in {food_choice}")
-    plt.xticks(rotation=45, ha='right')
-    plt.tight_layout()
-    st.pyplot(fig)
-    plt.close(fig)
-
 # Display filtered data table
 st.subheader("Food Table")
 st.dataframe(filtered)
