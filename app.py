@@ -63,7 +63,7 @@ chart = alt.Chart(top_foods).mark_bar().encode(
 st.altair_chart(chart, use_container_width=True)
 
 with col2:
-    # Pie chart code + bar chart with rotated x-axis labels
+    # Pie chart code 
     food_choice = st.selectbox("Select a food for detail", filtered["Food"], key="main_food_select")
     row = filtered[filtered["Food"] == food_choice].iloc[0]
     pie_data = pd.Series({
@@ -73,7 +73,7 @@ with col2:
         "Fiber": row["Fiber"]
     })
     st.subheader("Nutrient Breakdown")
-    fig1, ax1 = plt.subplots(figsize=(4, 4))
+    fig1, ax1 = plt.subplots(figsize=(2, 2))
     pie_data.plot.pie(ax=ax1, autopct='%1.1f%%')
     ax1.set_ylabel("")  # remove default y-label
     st.pyplot(fig1)
