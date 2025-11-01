@@ -49,6 +49,9 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader(f"Top foods by {nutrient}")
+    st.write("")         # One blank line
+    st.write("")         # Two blank lines
+    st.write("")         # Add more for more space
     top_foods = filtered.nlargest(10, nutrient)
     st.bar_chart(top_foods.set_index("Food")[nutrient])
 
