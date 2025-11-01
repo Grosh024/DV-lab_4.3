@@ -65,7 +65,7 @@ with col1:
         x=alt.X('Food', sort='-y', axis=alt.Axis(labelAngle=-45)),
         y=alt.Y(nutrient)
     ).properties(
-        width=400,
+        width=500,
         height=350
     )
     st.altair_chart(chart, use_container_width=True)
